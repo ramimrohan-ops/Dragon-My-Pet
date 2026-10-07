@@ -147,7 +147,7 @@ class FlamePicker(private val ctx: Context, private val onChange: (IntArray, Boo
         for (ch in chips) ch.invalidate()
         for (i in 0 until swatchRow.childCount) {
             val v = swatchRow.getChildAt(i)
-            if (v is Swatch && v.index in cols.indices) { v.color = cols[v.index]; v.selected = v.index == sel; v.invalidate() }
+            if (v is Swatch && v.index in cols.indices) { v.color = cols[v.index]; v.chosen = v.index == sel; v.invalidate() }
         }
     }
 
@@ -194,7 +194,7 @@ class FlamePicker(private val ctx: Context, private val onChange: (IntArray, Boo
         }
     }
 
-    private inner class Swatch(c: Context, val index: Int, var color: Int, var selected: Boolean, private val plus: Boolean) : View(c) {
+    private inner class Swatch(c: Context, val index: Int, var color: Int, var chosen: Boolean, private val plus: Boolean) : View(c) {
         private val p = Paint(Paint.ANTI_ALIAS_FLAG)
         override fun onDraw(c: Canvas) {
             val cx = width / 2f; val cy = height / 2f
@@ -208,9 +208,9 @@ class FlamePicker(private val ctx: Context, private val onChange: (IntArray, Boo
                 return
             }
             p.style = Paint.Style.FILL; p.color = color
-            c.drawCircle(cx, cy, r - (if (selected) dp(3) else 0), p)
+            c.drawCircle(cx, cy, r - (if (chosen) dp(3) else 0), p)
             p.style = Paint.Style.STROKE
-            if (selected) { p.strokeWidth = dp(2).toFloat(); p.color = Color.WHITE; c.drawCircle(cx, cy, r, p) }
+            if (chosen) { p.strokeWidth = dp(2).toFloat(); p.color = Color.WHITE; c.drawCircle(cx, cy, r, p) }
             else { p.strokeWidth = dp(1).toFloat(); p.color = Color.argb(90, 255, 255, 255); c.drawCircle(cx, cy, r, p) }
         }
     }
